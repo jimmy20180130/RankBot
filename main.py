@@ -326,9 +326,9 @@ async def show_info(ctx: discord.ApplicationContext, member: discord.Member = No
     embed = discord.Embed(
         title=f'{bot.get_user(member_id)} 的資訊',
         description=f'總發言次數: {user_data["msg_sent"]}\n'
-                    f'總進入語音頻道時間: {time.strftime("%H:%M:%S", time.gmtime(user_data["voice_joined_time"]))}\n'
-                    f'總語音收聽時間: {time.strftime("%H:%M:%S", time.gmtime(user_data["voice_listen_time"]))}\n'
-                    f'總語音說話時間: {time.strftime("%H:%M:%S", time.gmtime(user_data["voice_speak_time"]))}\n'
+                    f'總進入語音頻道時間: {"{:04d}:{:02d}:{:02d}".format(user_data["voice_joined_time"] // 3600, (user_data["voice_joined_time"] % 3600) // 60, user_data["voice_joined_time"] % 60)}\n'
+                    f'總語音收聽時間: {"{:04d}:{:02d}:{:02d}".format(user_data["voice_listen_time"] // 3600, (user_data["voice_listen_time"] % 3600) // 60, user_data["voice_listen_time"] % 60)}\n'
+                    f'總語音說話時間: {"{:04d}:{:02d}:{:02d}".format(user_data["voice_speak_time"] // 3600, (user_data["voice_speak_time"] % 3600) // 60, user_data["voice_speak_time"] % 60)}\n'
                     f'總經驗值: {user_data["total_xp"]}',
         color=discord.Color.green()
     )
