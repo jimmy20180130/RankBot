@@ -224,14 +224,14 @@ async def on_message_delete(message):
     
     embed = discord.Embed(
         title='訊息刪除',
-        description=f'使用者: {message.author}\n 刪除訊息: {content}',
+        description=f'傳送者: {message.author}\n 刪除訊息: {content}',
         color=discord.Color.red()
     )
     
     await channel.send(embed=embed)
     
     if message.attachments:
-        await channel.send(message.attachments[0].url)
+        await channel.send(files=[await attachment.to_file() for attachment in message.attachments])
     
 @bot.event
 async def on_message_edit(before, after):
@@ -249,7 +249,7 @@ async def on_message_edit(before, after):
     await channel.send(embed=embed)
     
     if after.attachments:
-        await channel.send(after.attachments[0].url)
+        await channel.send(files=[await attachment.to_file() for attachment in after.attachments])
 
 @bot.event
 async def on_voice_state_update(member, before, after):
@@ -308,7 +308,7 @@ async def show_info(ctx: discord.ApplicationContext, member: discord.Member = No
     if member is not None and ctx.author.guild_permissions.manage_guild:
         member_id = member.id
     
-    elif member is not None and not ctx.author.guild_permissions.manage_guild:
+    elif member is not None and member.id != ctx.author.id and not ctx.author.guild_permissions.manage_guild:
         await ctx.respond('你沒有權限查詢別人的資訊')
         return
     
